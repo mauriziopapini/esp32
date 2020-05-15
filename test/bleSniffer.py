@@ -1,5 +1,6 @@
 from ubluetooth import BLE, UUID, FLAG_NOTIFY, FLAG_READ, FLAG_WRITE
 from micropython import const
+from struct import unpack
 
 IRQ_SCAN_RESULT = const(1 << 4)
 IRQ_SCAN_COMPLETE = const(1 << 5)
@@ -224,7 +225,11 @@ def dumpManufacter(data):
     print("\tMANUFACTER:", manName, "[0x%04X]" %(manCode,))
     print("\t%s" %(dumpHex(data[2:]),) )
 
+def dumpUUID(data):
+    print("\t%s" %(uuidStr(data),))
+
 ADV_DISSECTOR_MAP = {
+    0x07: dumpUUID,
     0xFF: dumpManufacter
 }
 
